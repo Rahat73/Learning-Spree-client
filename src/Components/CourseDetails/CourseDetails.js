@@ -1,7 +1,6 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { HiDownload, HiOutlineCurrencyDollar, HiStar, HiUsers } from "react-icons/hi";
-import ReactDOM from "react-dom";
 import Pdf from "react-to-pdf";
 const ref = React.createRef();
 
@@ -9,7 +8,7 @@ const ref = React.createRef();
 const CourseDetails = () => {
 
     const courseDetails = useLoaderData();
-    const { title, imageURL, price, rating, subtitle, description, enrolled } = courseDetails;
+    const { id, title, imageURL, price, rating, subtitle, description, enrolled } = courseDetails;
 
     return (
         <div className='w-7/12 mx-auto text-slate-300' ref={ref}>
@@ -32,14 +31,11 @@ const CourseDetails = () => {
                         <div className='flex'><HiStar className='text-3xl mx-2'></HiStar><span>{rating}</span></div>
                         <div className='flex'><HiUsers className='text-3xl mx-2'></HiUsers><span>{enrolled}</span></div>
                     </div>
-                    <button className='btn btn-outline btn-wide btn-secondary'>Enroll Now !!</button>
+                    <Link to={`/checkout/${id}`}><button className='btn btn-outline btn-wide btn-secondary'>Get Premium Access</button></Link>
                 </div>
             </div>
         </div>
     );
 };
-
-// const rootElement = document.getElementById("root");
-// //ReactDOM.render(<CourseDetails />, rootElement);
 
 export default CourseDetails;
