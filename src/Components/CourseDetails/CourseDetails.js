@@ -1,6 +1,10 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { HiDownload, HiOutlineCurrencyDollar, HiStar, HiUsers } from "react-icons/hi";
+import ReactDOM from "react-dom";
+import Pdf from "react-to-pdf";
+const ref = React.createRef();
+
 
 const CourseDetails = () => {
 
@@ -8,11 +12,13 @@ const CourseDetails = () => {
     const { title, imageURL, price, rating, subtitle, description, enrolled } = courseDetails;
 
     return (
-        <div className='w-7/12 mx-auto'>
+        <div className='w-7/12 mx-auto text-slate-300' ref={ref}>
             <div className='bg-slate-300 bg-opacity-10 bg-clip-padding backdrop-filter backdrop-blur-sm rounded-2xl pb-10 pt-5'>
                 <div className='flex justify-between px-6'>
                     <h1 className='font-semibold text-xl'>{title}</h1>
-                    <button><HiDownload className='text-2xl'></HiDownload></button>
+                    <Pdf targetRef={ref} filename="course-details.pdf">
+                        {({ toPdf }) => <button onClick={toPdf}><HiDownload className='text-2xl'></HiDownload></button>}
+                    </Pdf>
                 </div>
                 <div className="divider mb-10"></div>
                 <div className='w-11/12 mx-auto'>
@@ -32,5 +38,8 @@ const CourseDetails = () => {
         </div>
     );
 };
+
+// const rootElement = document.getElementById("root");
+// //ReactDOM.render(<CourseDetails />, rootElement);
 
 export default CourseDetails;
