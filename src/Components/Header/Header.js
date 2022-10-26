@@ -24,10 +24,16 @@ const Header = () => {
                             <li><Link to="blog">
                                 Blog
                             </Link></li>
+                            <li><Link to="login">
+                                Login
+                            </Link></li>
+                            <li><Link to="registration">
+                                Register
+                            </Link></li>
                             <input type="checkbox" className="toggle" />
                         </ul>
                     </div>
-                    <button><img className='h-28 lg:h-40' src={logo} alt="logo" /></button>
+                    <Link to="/"><button><img className='h-28 lg:h-40' src={logo} alt="logo" /></button></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex mx-20">
                     <ul className="menu menu-horizontal p-0 items-center">
@@ -44,6 +50,10 @@ const Header = () => {
                             Blog
                         </Link></li>
                     </ul>
+                </div>
+                <div className='menu menu-horizontal p-0 items-center hidden md:block'>
+                    <Link className='mr-2' to="login">Login</Link>
+                    <Link to="registration">Register</Link>
                 </div>
                 <div>
                     <input type="checkbox" className="toggle hidden lg:block" />

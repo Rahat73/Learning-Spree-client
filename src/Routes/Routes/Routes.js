@@ -5,6 +5,8 @@ import CourseDetails from "../../Components/CourseDetails/CourseDetails";
 import Courses from "../../Components/Courses/Courses";
 import FAQ from "../../Components/FAQ/FAQ";
 import Home from "../../Components/Home/Home";
+import Login from "../../Components/LoginRegistration/Login/Login";
+import Registration from "../../Components/LoginRegistration/Registration/Registration";
 import Main from "../../Layout/Main";
 
 
@@ -39,6 +41,14 @@ export const routes = createBrowserRouter([
                 path: '/checkout/:id',
                 element: <Checkout></Checkout>,
                 loader: ({ params }) => fetch(`https://learning-spree-server.vercel.app/courses/${params.id}`)
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/registration',
+                element: <Registration></Registration>
             }
         ]
     }
