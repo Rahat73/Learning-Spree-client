@@ -1,9 +1,10 @@
 import React from 'react';
 import { HiOutlineCurrencyDollar, HiStar } from "react-icons/hi";
+import { Link } from 'react-router-dom';
 
 
 const CourseCard = ({ course }) => {
-    const { title, imageURL, price, rating, subtitle } = course;
+    const { id, title, imageURL, price, rating, subtitle } = course;
     return (
         <div>
             <div className="card bg-slate-300 bg-opacity-10 bg-clip-padding backdrop-filter backdrop-blur-sm rounded-2xl hover:shadow-inner hover:shadow-black">
@@ -18,7 +19,9 @@ const CourseCard = ({ course }) => {
                             <div className='flex'><HiOutlineCurrencyDollar className='text-3xl text-amber-200 mx-2'></HiOutlineCurrencyDollar><span>{price}</span></div>
                             <div className='flex'><HiStar className='text-3xl text-warning mx-2'></HiStar><span>{rating}</span></div>
                         </div>
-                        <button className="btn btn-outline btn-secondary btn-sm lg:btn-md">Buy Now</button>
+                        <Link to={`/courses/${id}`}>
+                            <button className="btn btn-outline btn-secondary btn-sm lg:btn-md">Buy Now</button>
+                        </Link>
                     </div>
                 </div>
             </div>
