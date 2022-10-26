@@ -1,34 +1,81 @@
 import { GoogleAuthProvider } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
 
-    const { googleSignInProvider } = useContext(AuthContext);
+    const [error, setError] = useState('');
+    const { createUser, googleSignInProvider } = useContext(AuthContext);
 
     const googleProvider = new GoogleAuthProvider();
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.userName.value;
+        const photoURL = form.photoURL.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
+
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log('result.user', user);
+                form.reset();
+            })
+            .catch(e => {
+                setError(e.message);
+                toast.error(error);
+            });
+    }
+
+
 
     const handleGoogleSignIn = () => {
         googleSignInProvider(googleProvider)
             .then(result => {
                 const user = result.user;
-                console.log('result.user', user);
+                //console.log('result.user', user);
             })
-            .catch(error => console.error(error))
+            .catch(e => {
+                setError(e.message);
+                toast.error(error);
+            });
     }
+
+
     return (
         <div>
-            <div className='w-5/12 mx-auto mb-20'>
-                <form>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+            <div className='w-11/12 md:w-8/12 lg:w-5/12 mx-auto mb-20'>
+                <form onSubmit={handleSubmit}>
                     <div className='bg-slate-300 bg-opacity-10 bg-clip-padding backdrop-filter backdrop-blur-sm rounded-2xl p-10'>
                         <div className="divider text-2xl">Registration</div>
-                        <div className='form-control w-1/2 mx-auto'>
+                        <div className='form-control w-3/4 lg:w-1/2 mx-auto'>
                             <label className="label">
                                 <span className="label-text text-lg text-start">Name</span>
                             </label>
-                            <input type="text" name='user-name' placeholder="Enter your name" className="input input-bordered w-full max-w-xs" required />
+                            <input type="text" name='userName' placeholder="Enter your name" className="input input-bordered w-full max-w-xs" required />
+                            <label className="label">
+                                <span className="label-text text-lg text-start">Photo URL</span>
+                            </label>
+                            <input type="text" name='photoURL' placeholder="Enter photo URL" className="input input-bordered w-full max-w-xs" />
                             <label className="label">
                                 <span className="label-text text-lg">Email</span>
                             </label>
@@ -40,9 +87,9 @@ const Registration = () => {
                             <label className="label">
                                 <span className="label-text text-lg">Confirm password</span>
                             </label>
-                            <input type="password" name='confirm-password' placeholder="Confirm your password" className="input input-bordered w-full max-w-xs" required />
+                            <input type="password" name='confirmPassword' placeholder="Confirm your password" className="input input-bordered w-full max-w-xs" required />
                             <div>
-                                <button className='btn btn-wide btn-outline btn-secondary mt-10 mb-5' type='submit'>Login</button>
+                                <button className='btn btn-wide btn-outline btn-secondary mt-10 mb-5' type='submit'>Register</button>
                             </div>
 
                         </div>

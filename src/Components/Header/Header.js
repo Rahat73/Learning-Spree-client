@@ -7,7 +7,13 @@ import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
 
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
 
     return (
         <div>
@@ -30,12 +36,23 @@ const Header = () => {
                             <li><Link to="blog">
                                 Blog
                             </Link></li>
-                            <li><Link to="login">
-                                Login
-                            </Link></li>
-                            <li><Link to="registration">
-                                Register
-                            </Link></li>
+                            {
+                                user?.uid ?
+                                    <>
+                                        <li><Link onClick={handleLogOut}>
+                                            LogOut
+                                        </Link></li>
+                                    </>
+                                    :
+                                    <>
+                                        <li><Link to="login">
+                                            Login
+                                        </Link></li>
+                                        <li><Link to="registration">
+                                            Register
+                                        </Link></li>
+                                    </>
+                            }
                             <input type="checkbox" className="toggle" />
                         </ul>
                     </div>
@@ -58,8 +75,17 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className='menu menu-horizontal p-0 items-center hidden md:block'>
-                    <Link className='mr-2' to="login">Login</Link>
-                    <Link to="registration">Register</Link>
+                    {
+                        user?.uid ?
+                            <>
+                                <Link className='btn btn-ghost' onClick={handleLogOut}>LogOut</Link>
+                            </>
+                            :
+                            <>
+                                <Link className='mr-2 btn btn-ghost' to="login">Login</Link>
+                                <Link className='btn btn-ghost' to="registration">Register</Link>
+                            </>
+                    }
                 </div>
                 <div>
                     <input type="checkbox" className="toggle hidden lg:block" />
@@ -75,7 +101,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
