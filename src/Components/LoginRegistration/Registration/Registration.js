@@ -1,7 +1,23 @@
+import { GoogleAuthProvider } from 'firebase/auth';
 import React from 'react';
+import { useContext } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
+import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 
 const Registration = () => {
+
+    const { googleSignInProvider } = useContext(AuthContext);
+
+    const googleProvider = new GoogleAuthProvider();
+
+    const handleGoogleSignIn = () => {
+        googleSignInProvider(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log('result.user', user);
+            })
+            .catch(error => console.error(error))
+    }
     return (
         <div>
             <div className='w-5/12 mx-auto mb-20'>
@@ -34,8 +50,8 @@ const Registration = () => {
                 </form>
                 <div className="divider text-lg">OR</div>
                 <div className='flex justify-evenly'>
-                    <button className='btn btn-outline btn-secondary'>SignUp with Google <FaGoogle className='ml-2 text-lg'></FaGoogle></button>
-                    <button className='btn btn-outline btn-secondary'>SignUp with GitHub <FaGithub className='ml-2 text-lg'></FaGithub></button>
+                    <button onClick={handleGoogleSignIn} className='btn btn-outline btn-secondary'><FaGoogle className='mr-2 text-lg'></FaGoogle> SignIn with Google</button>
+                    <button className='btn btn-outline btn-secondary'><FaGithub className='mr-2 text-lg'></FaGithub> SignIn with GitHub</button>
                 </div>
             </div>
         </div>
