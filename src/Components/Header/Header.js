@@ -1,8 +1,15 @@
 import React from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 import logo from '../../images/Learning-Spree-Logo.png'
 
 const Header = () => {
+
+    const { user } = useContext(AuthContext);
+
+    console.log(user?.displayName);
+    const displayName = user?.displayName;
     return (
         <div>
             <div className="navbar justify-between pt-3 pb-16 px-14">
@@ -57,11 +64,13 @@ const Header = () => {
                 </div>
                 <div>
                     <input type="checkbox" className="toggle hidden lg:block" />
-                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar px mx-4">
-                        <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/80/80/people" alt='profile pic' />
-                        </div>
-                    </label>
+                    <div className='tooltip' data-tip={displayName}>
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar px mx-4">
+                            <div className="w-10 rounded-full">
+                                <img src="https://placeimg.com/80/80/people" alt='profile pic' />
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
