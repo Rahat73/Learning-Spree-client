@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import CourseCard from '../../Components/CourseCard/CourseCard';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 
 const Courses = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const allCourses = useLoaderData();
 
     return (

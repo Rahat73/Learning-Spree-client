@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 
 const Checkout = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const courseDetails = useLoaderData();
     const { title, imageURL, price } = courseDetails;

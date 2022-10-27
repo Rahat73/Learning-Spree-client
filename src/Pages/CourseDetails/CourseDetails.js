@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { HiDownload, HiOutlineCurrencyDollar, HiStar, HiUsers } from "react-icons/hi";
 import Pdf from "react-to-pdf";
@@ -7,6 +7,9 @@ const ref = React.createRef();
 
 const CourseDetails = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const courseDetails = useLoaderData();
     const { id, title, imageURL, price, rating, subtitle, description, enrolled } = courseDetails;
 

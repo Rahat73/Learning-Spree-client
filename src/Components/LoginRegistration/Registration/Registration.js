@@ -1,5 +1,5 @@
 import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
@@ -8,6 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 
 const Registration = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const [accepted, setAccepted] = useState(false);
 

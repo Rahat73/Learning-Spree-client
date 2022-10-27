@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
@@ -13,6 +13,13 @@ const Header = () => {
         logOut()
             .then(() => { })
             .catch(error => console.error(error))
+    }
+
+    const [theme, setTheme] = useState(false);
+
+    const handleTheme = event => {
+        setTheme(event.target.checked);
+        console.log(event.target.checked);
     }
 
     return (
@@ -53,7 +60,19 @@ const Header = () => {
                                         </Link></li>
                                     </>
                             }
-                            <input type="checkbox" className="toggle" />
+                            <input onClick={handleTheme} type="checkbox" className="toggle hidden lg:block" />
+                            <div>
+                                {
+                                    !theme ?
+                                        <>
+                                            <div className="badge badge-accent badge-outline">Dark</div>
+                                        </>
+                                        :
+                                        <>
+                                            <div className="badge badge-accent badge-outline">Light</div>
+                                        </>
+                                }
+                            </div>
                         </ul>
                     </div>
                     <Link to="/"><button><img className='h-28 lg:h-40' src={logo} alt="logo" /></button></Link>
@@ -88,7 +107,19 @@ const Header = () => {
                     }
                 </div>
                 <div>
-                    <input type="checkbox" className="toggle hidden lg:block" />
+                    <div>
+                        <input onClick={handleTheme} type="checkbox" className="toggle hidden lg:block" />
+                        {
+                            !theme ?
+                                <>
+                                    <div className="badge badge-accent badge-outline">Dark</div>
+                                </>
+                                :
+                                <>
+                                    <div className="badge badge-accent badge-outline">Light</div>
+                                </>
+                        }
+                    </div>
                     <div className='tooltip' data-tip={user?.displayName}>
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar px mx-4">
                             <div className="w-10 rounded-full">

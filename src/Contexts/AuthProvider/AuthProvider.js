@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             //console.log('user inside state change', currentUser?.providerData[0]?.providerId);
             // checking if the providerid is git hub. cz github emailVerified is false
-            if (currentUser === null || (currentUser.emailVerified || currentUser?.providerData[0]?.providerId === "github.com")) {
+            if (currentUser === null || currentUser.emailVerified || currentUser?.providerData[0]?.providerId === "github.com") {
                 setUser(currentUser);
             }
             setLoading(false);
