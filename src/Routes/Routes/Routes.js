@@ -3,6 +3,7 @@ import Blog from "../../Components/Blog/Blog";
 import Checkout from "../../Components/Checkout/Checkout";
 import CourseDetails from "../../Components/CourseDetails/CourseDetails";
 import Courses from "../../Components/Courses/Courses";
+import Error from "../../Components/Error/Error";
 import FAQ from "../../Components/FAQ/FAQ";
 import Home from "../../Components/Home/Home";
 import Login from "../../Components/LoginRegistration/Login/Login";
@@ -55,6 +56,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/T&C',
                 element: <TnC></TnC>
+            },
+            {
+                path: '*',
+                element: <Error></Error>
             }
         ]
     }
