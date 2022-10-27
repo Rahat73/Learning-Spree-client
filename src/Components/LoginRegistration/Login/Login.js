@@ -2,7 +2,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext } from 'react';
 import { useState } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,8 @@ const Login = () => {
     const [error, setError] = useState('');
     const { signIn, googleSignInProvider } = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/'
 
     const googleProvider = new GoogleAuthProvider();
 
@@ -27,7 +29,7 @@ const Login = () => {
                 console.log('normal', user);
                 form.reset();
                 setError('');
-                navigate('/');
+                navigate(from, { replace: true });
             })
             .catch(e => {
                 setError(e.message);
@@ -40,6 +42,8 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log('google', user);
+                setError('');
+                navigate(from, { replace: true });
             })
             .catch(e => {
                 setError(e.message);

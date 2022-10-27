@@ -20,7 +20,7 @@ const CourseCard = ({ course }) => {
                             <div className='flex'><HiStar className='text-3xl text-warning mx-2'></HiStar><span>{rating}</span></div>
                         </div>
                         <Link to={`/courses/${id}`}>
-                            <button className="btn btn-outline btn-secondary btn-sm lg:btn-md">Buy Now</button>
+                            <button className="btn btn-outline btn-secondary btn-sm lg:btn-md">View Details</button>
                         </Link>
                     </div>
                 </div>

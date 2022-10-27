@@ -5,13 +5,34 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const Registration = () => {
 
     const [error, setError] = useState('');
-    const { createUser, googleSignInProvider } = useContext(AuthContext);
+    const [accepted, setAccepted] = useState(false);
+
+    const { createUser, updateUserProfile, googleSignInProvider } = useContext(AuthContext);
 
     const googleProvider = new GoogleAuthProvider();
+
+    const handleTnC = event => {
+        setAccepted(event.target.checked);
+        console.log(event.target.checked);
+    }
+
+    const handleUpdateUserProfile = (name, photoURL) => {
+        const profile = {
+            displayName: name,
+            photoURL: photoURL
+        }
+        updateUserProfile(profile)
+            .then(() => { })
+            .catch(e => {
+                setError(e.message);
+                toast.error(error);
+            });
+    }
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -27,6 +48,7 @@ const Registration = () => {
                 const user = result.user;
                 console.log('result.user', user);
                 form.reset();
+                handleUpdateUserProfile(name, photoURL);
             })
             .catch(e => {
                 setError(e.message);
@@ -88,8 +110,14 @@ const Registration = () => {
                                 <span className="label-text text-lg">Confirm password</span>
                             </label>
                             <input type="password" name='confirmPassword' placeholder="Confirm your password" className="input input-bordered w-full max-w-xs" required />
+                            <div className="form-control mt-3">
+                                <label className="cursor-pointer label justify-start">
+                                    <input onClick={handleTnC} type="checkbox" className="checkbox checkbox-accent mr-2" />
+                                    <span className="label-text">Accept <Link className='text-amber-400' to="/T&C">Terms & Conditions</Link></span>
+                                </label>
+                            </div>
                             <div>
-                                <button className='btn btn-wide btn-outline btn-secondary mt-10 mb-5' type='submit'>Register</button>
+                                <button className='btn btn-wide btn-outline btn-secondary mt-10 mb-5' type='submit' disabled={!accepted}>Register</button>
                             </div>
 
                         </div>
