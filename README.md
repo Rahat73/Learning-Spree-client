@@ -1,3 +1,24 @@
+# Website name: Learning Spree
+# Live Site
+https://learning-spree.web.app/
+
+## Features and Functionality
+* User can find different courses by clicking on COURSES at navbar
+* User can see course details by clicking on 'view details' button or from course details from sidebar
+* User can download course detais as PDF from course details page
+* User can Login/Register to the website via Email/Pass , google account, github account
+* User can only go to the checkout page if he/she is logged in. that page is protected by privateRoute
+
+## Technologies (frameworks, libraries) used: 
+* Tailwind css
+* daisyUI
+* React
+* Express.js
+* react-toastify
+* react-to-pdf
+* vercel
+* firebase
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
