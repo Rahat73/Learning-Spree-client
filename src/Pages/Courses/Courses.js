@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
-import CourseCard from '../CourseCard/CourseCard';
-import Sidebar from '../Sidebar/Sidebar';
+import CourseCard from '../../Components/CourseCard/CourseCard';
+import Sidebar from '../../Components/Sidebar/Sidebar';
 
 const Courses = () => {
 

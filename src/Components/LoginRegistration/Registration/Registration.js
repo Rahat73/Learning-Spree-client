@@ -1,4 +1,4 @@
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 
 const Registration = () => {
 
-    const [error, setError] = useState('');
     const [accepted, setAccepted] = useState(false);
 
-    const { createUser, updateUserProfile, googleSignInProvider } = useContext(AuthContext);
+    const { createUser, updateUserProfile, verifyEmail, googleSignInProvider, githubSignInProvider } = useContext(AuthContext);
 
     const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     const handleTnC = event => {
         setAccepted(event.target.checked);
@@ -29,8 +29,15 @@ const Registration = () => {
         updateUserProfile(profile)
             .then(() => { })
             .catch(e => {
-                setError(e.message);
-                toast.error(error);
+                toast.error(e.message);
+            });
+    }
+
+    const handleEmailVerification = () => {
+        verifyEmail()
+            .then(() => { })
+            .catch(e => {
+                toast.error(e.message);
             });
     }
 
@@ -43,17 +50,23 @@ const Registration = () => {
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
 
-        createUser(email, password)
-            .then(result => {
-                const user = result.user;
-                console.log('result.user', user);
-                form.reset();
-                handleUpdateUserProfile(name, photoURL);
-            })
-            .catch(e => {
-                setError(e.message);
-                toast.error(error);
-            });
+        if (password === confirmPassword) {
+            createUser(email, password)
+                .then(result => {
+                    const user = result.user;
+                    console.log('result.user', user);
+                    form.reset();
+                    handleUpdateUserProfile(name, photoURL);
+                    handleEmailVerification();
+                    toast.success('Check your e-mail & verify.');
+                })
+                .catch(e => {
+                    toast.error(e.message);
+                });
+        }
+        else {
+            toast.error("Confirm Password doesn't match")
+        }
     }
 
 
@@ -62,14 +75,23 @@ const Registration = () => {
         googleSignInProvider(googleProvider)
             .then(result => {
                 const user = result.user;
-                //console.log('result.user', user);
+                console.log('result.user', user);
             })
             .catch(e => {
-                setError(e.message);
-                toast.error(error);
+                toast.error(e.message);
             });
     }
 
+    const handleGithubSignIn = () => {
+        githubSignInProvider(githubProvider)
+            .then(result => {
+                const user = result.user;
+                console.log('result.user', user);
+            })
+            .catch(e => {
+                toast.error(e.message);
+            });
+    }
 
     return (
         <div>
@@ -126,7 +148,7 @@ const Registration = () => {
                 <div className="divider text-lg">OR</div>
                 <div className='flex justify-evenly'>
                     <button onClick={handleGoogleSignIn} className='btn btn-outline btn-secondary'><FaGoogle className='mr-2 text-lg'></FaGoogle> SignIn with Google</button>
-                    <button className='btn btn-outline btn-secondary'><FaGithub className='mr-2 text-lg'></FaGithub> SignIn with GitHub</button>
+                    <button onClick={handleGithubSignIn} className='btn btn-outline btn-secondary'><FaGithub className='mr-2 text-lg'></FaGithub> SignIn with GitHub</button>
                 </div>
             </div>
         </div>

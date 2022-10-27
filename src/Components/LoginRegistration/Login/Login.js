@@ -1,6 +1,5 @@
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext } from 'react';
-import { useState } from 'react';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
@@ -9,13 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
-    const [error, setError] = useState('');
-    const { signIn, googleSignInProvider } = useContext(AuthContext);
+    const { setLoading, signIn, googleSignInProvider, githubSignInProvider } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/'
 
     const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -28,13 +27,19 @@ const Login = () => {
                 const user = result.user;
                 console.log('normal', user);
                 form.reset();
-                setError('');
-                navigate(from, { replace: true });
+                if (user.emailVerified) {
+                    navigate(from, { replace: true });
+                }
+                else {
+                    toast.error('Please verify your email address');
+                }
             })
             .catch(e => {
-                setError(e.message);
-                toast.error(error);
-            });
+                toast.error(e.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     }
 
     const handleGoogleSignIn = () => {
@@ -42,12 +47,22 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log('google', user);
-                setError('');
                 navigate(from, { replace: true });
             })
             .catch(e => {
-                setError(e.message);
-                toast.error(error);
+                toast.error(e.message);
+            });
+    }
+
+    const handleGithubSignIn = () => {
+        githubSignInProvider(githubProvider)
+            .then(result => {
+                const user = result.user;
+                console.log('github', user);
+                navigate(from, { replace: true });
+            })
+            .catch(e => {
+                toast.error(e.message);
             });
     }
 
@@ -86,7 +101,7 @@ const Login = () => {
             <div className="divider text-lg">OR</div>
             <div className='flex justify-evenly'>
                 <button onClick={handleGoogleSignIn} className='btn btn-outline btn-secondary'><FaGoogle className='mr-2 text-lg'></FaGoogle> SignIn with Google</button>
-                <button className='btn btn-outline btn-secondary'><FaGithub className='mr-2 text-lg'></FaGithub> SignIn with GitHub</button>
+                <button onClick={handleGithubSignIn} className='btn btn-outline btn-secondary'><FaGithub className='mr-2 text-lg'></FaGithub> SignIn with GitHub</button>
             </div>
         </div>
     );

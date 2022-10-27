@@ -22,7 +22,7 @@ const CourseDetails = () => {
                 <div className="divider mb-10"></div>
                 <div className='w-11/12 mx-auto'>
                     <div className='flex flex-col items-center'>
-                        <img className='w w-2/4' src={imageURL} alt="course" />
+                        <img className='w w-4/12' src={imageURL} alt="course" />
                         <h1 className='font-semibold text-xl text-left my-5'>{subtitle}</h1>
                     </div>
                     <p className='text-start'>{description}</p>
